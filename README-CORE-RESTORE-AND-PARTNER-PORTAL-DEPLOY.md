@@ -27,38 +27,6 @@ npm run build:identity-server
 - Script de deploy remoto disponível neste repositório:
   - [deploy-remote.sh](deploy-remote.sh)
 
-## Cenário Sem Backup (Todos os Ambientes Alterados)
-
-Quando não existe backup e todos os ambientes tiveram alterações no core, o processo recomendado é criar uma fonte única de restauração (golden source) baseada na distribuição oficial limpa da mesma versão do Curity em produção.
-
-Versão informada para este cenário:
-
-- Identity Server 10.4.0
-- JVM 21.0.6
-
-Plano recomendado:
-
-1. Baixar/reextrair a distribuição oficial limpa do Curity 10.4.0.
-2. Em um host de referência, separar a pasta limpa de templates e messages core.
-3. Publicar exatamente o mesmo conteúdo de core em todos os ambientes (dev/hml/prod), sem aproveitar core já alterado de outro ambiente.
-4. Após restaurar o core padrão, aplicar somente as customizações em `overrides`, `template-areas` e `webroot/assets`.
-
-Exemplo de comandos (com fonte limpa já disponível no host remoto):
-
-```bash
-export HOST=<host-remoto>
-export USER=<usuario-remoto>
-export SHARE_DIR=/opt/idsvr/usr/share
-export CLEAN_DIR=/opt/idsvr-clean-10.4.0/usr/share
-export TS=$(date +%Y%m%d_%H%M%S)
-
-ssh "$USER@$HOST" "mv $SHARE_DIR/templates/core $SHARE_DIR/templates/core.pre-restore-$TS || true"
-ssh "$USER@$HOST" "mv $SHARE_DIR/messages/core $SHARE_DIR/messages/core.pre-restore-$TS || true"
-ssh "$USER@$HOST" "cp -a $CLEAN_DIR/templates/core $SHARE_DIR/templates/"
-ssh "$USER@$HOST" "cp -a $CLEAN_DIR/messages/core $SHARE_DIR/messages/"
-```
-
-Depois dessa restauração, seguir normalmente para a Fase 4 (publicação do Partner Portal).
 
 ## Cenário Aprovado - Usar o Core Deste Repositório
 

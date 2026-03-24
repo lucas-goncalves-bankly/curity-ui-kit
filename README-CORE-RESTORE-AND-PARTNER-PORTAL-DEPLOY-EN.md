@@ -27,39 +27,6 @@ npm run build:identity-server
 - Remote deployment helper script available in this repository:
   - [deploy-remote.sh](deploy-remote.sh)
 
-## No-Backup Scenario (All Environments Modified)
-
-When no backup exists and all environments have modified core files, the recommended approach is to create a single recovery source (golden source) from the official clean Curity distribution for the same production version.
-
-Version provided for this scenario:
-
-- Identity Server 10.4.0
-- JVM 21.0.6
-
-Recommended plan:
-
-1. Download/re-extract the official clean Curity 10.4.0 distribution.
-2. On a reference host, prepare the clean `templates/core` and `messages/core` folders.
-3. Publish exactly the same core content to all environments (dev/test/prod), without reusing core from another already modified environment.
-4. After core is restored, apply only customizations in `overrides`, `template-areas`, and `webroot/assets`.
-
-Example commands (assuming clean source already exists on the remote host):
-
-```bash
-export HOST=<remote-host>
-export USER=<remote-user>
-export SHARE_DIR=/opt/idsvr/usr/share
-export CLEAN_DIR=/opt/idsvr-clean-10.4.0/usr/share
-export TS=$(date +%Y%m%d_%H%M%S)
-
-ssh "$USER@$HOST" "mv $SHARE_DIR/templates/core $SHARE_DIR/templates/core.pre-restore-$TS || true"
-ssh "$USER@$HOST" "mv $SHARE_DIR/messages/core $SHARE_DIR/messages/core.pre-restore-$TS || true"
-ssh "$USER@$HOST" "cp -a $CLEAN_DIR/templates/core $SHARE_DIR/templates/"
-ssh "$USER@$HOST" "cp -a $CLEAN_DIR/messages/core $SHARE_DIR/messages/"
-```
-
-After this recovery step, continue with Phase 4 (Partner Portal deployment).
-
 ## Approved Scenario - Use This Repository Core as Baseline
 
 When the team decides to use this repository as a clean baseline (no legacy customization in core), the process can be standardized across all environments.
