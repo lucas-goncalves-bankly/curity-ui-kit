@@ -133,5 +133,58 @@ This deploys:
 - Templates → `${IDSVR_HOME}/usr/share/templates/overrides/apps/self-service-portal` or `template-areas/{area}/apps/self-service-portal`
 - Messages → `${IDSVR_HOME}/usr/share/messages/overrides/{language}/apps/self-service-portal` or `template-areas/{area}/{language}/apps/self-service-portal`
 
+### Remote Deploy Over SSH
+
+If your Identity Server runs on a remote host, build artifacts locally and sync them via SSH using `deploy-remote.sh`.
+
+#### Prerequisites
+
+1. Build Identity Server artifacts locally:
+    ```shell
+    npm run build:identity-server
+    ```
+2. Ensure SSH access to the remote host.
+3. Ensure `rsync` is available locally.
+
+#### Basic Usage
+
+```shell
+npm run deploy:remote -- --host <remote-host> --user <remote-user>
+```
+
+This syncs:
+- `src/identity-server/build/webroot` → `/opt/idsvr/usr/share/webroot`
+- `src/identity-server/build/templates` → `/opt/idsvr/usr/share/templates`
+- `src/identity-server/build/messages` → `/opt/idsvr/usr/share/messages`
+
+#### Useful Options
+
+- Custom SSH port:
+   ```shell
+   npm run deploy:remote -- --host <remote-host> --user <remote-user> --port 2222
+   ```
+- SSH key file:
+   ```shell
+   npm run deploy:remote -- --host <remote-host> --user <remote-user> --identity-file ~/.ssh/id_rsa
+   ```
+- Simulate deploy (no changes):
+   ```shell
+   npm run deploy:remote -- --host <remote-host> --user <remote-user> --dry-run
+   ```
+- Remove remote files not present locally in synced folders:
+   ```shell
+   npm run deploy:remote -- --host <remote-host> --user <remote-user> --delete
+   ```
+- Run a remote restart command after deploy:
+   ```shell
+   npm run deploy:remote -- --host <remote-host> --user <remote-user> --restart-cmd "sudo systemctl restart idsvr"
+   ```
+
+### Core Restore + Partner Portal Runbook
+
+For the full operational procedure to restore Curity defaults in environment core paths and then deploy the Partner Portal multi-brand theme, see:
+
+- [README-CORE-RESTORE-AND-PARTNER-PORTAL-DEPLOY.md](README-CORE-RESTORE-AND-PARTNER-PORTAL-DEPLOY.md)
+
 ## License
 Licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE).

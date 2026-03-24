@@ -35,7 +35,8 @@
     "build:component-library": "npm run -w src/common/component-library build",
     "build:icons": "npm run -w src/common/icons build",
     "build": "npm run build -ws --if-present",
-    "clean": "npm run clean -ws --if-present"
+    "clean": "npm run clean -ws --if-present",
+    "deploy:remote": "./deploy-remote.sh"
   },
   "engines": {
     "node": ">=22.22.0",
