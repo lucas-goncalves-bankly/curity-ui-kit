@@ -42,15 +42,33 @@ Objetivo desta etapa:
 
 - Fluxos sem branding voltam ao comportamento padrão Curity.
 
+### Cenário aprovado: usar o core deste repositório como baseline
+
+Quando o time decidir usar este repositório como baseline limpa, usar como fonte:
+
+- `src/identity-server/templates/core`
+- `src/identity-server/messages/core` (se aplicável)
+
+Procedimento manual (SFTP/FTP):
+
+1. No servidor, renomear pastas atuais para rollback rápido:
+	- `/opt/idsvr/usr/share/templates/core` -> `core.pre-restore-<data>`
+	- `/opt/idsvr/usr/share/messages/core` -> `core.pre-restore-<data>`
+2. Fazer upload da pasta local `src/identity-server/templates/core` para:
+	- `/opt/idsvr/usr/share/templates/core`
+3. Fazer upload da pasta local `src/identity-server/messages/core` para:
+	- `/opt/idsvr/usr/share/messages/core`
+4. Confirmar estrutura e seguir para aplicação do Partner Portal.
+
 ## 3) Aplicar arquivos do Partner Portal (manual)
 
 ### 3.1 CSS
 
 Adicionar arquivo de tema na pasta de CSS:
 
-- `/opt/idsvr/usr/share/webroot/assets/css/custom-bankly-theme.css`
+- `/opt/idsvr/usr/share/webroot/assets/css/partner-portal-theme.css`
 
-Observação: no build local, o tema pode sair como `partner-portal-theme.css`. Se necessário, renomear para `custom-bankly-theme.css` antes de subir.
+Observação: `custom-bankly-theme.css` foi descontinuado e não deve mais ser usado.
 
 ### 3.2 Imagem
 
