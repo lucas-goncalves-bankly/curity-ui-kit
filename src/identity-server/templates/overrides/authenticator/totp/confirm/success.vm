@@ -1,0 +1,42 @@
+#set($_errorClassUsername = "")
+#set($_errorClassPassword = "")
+#if($logo_white_path && !$logo_path)
+	#set($logo_path = $logo_white_path)
+#end
+
+#set ($page_symbol = $page_symbol_done)
+
+#define($_body)
+#parse("fragments/credential-operation-details")
+
+<div class="login-container">
+	<div class="login-left">
+		<div class="login-logo-custom">
+			#if($logo_path)
+				<img src="$logo_path" alt="Logo" style="max-width: 200px; max-height: 100px;" />
+			#end
+		</div>
+
+		<div class="area center login-form">
+			<!--<h1>#message("authenticator.totp.confirm.view.title1")</h1>-->
+
+			#parse("fragments/auto-login")
+			<div class="mt3 clearfix">
+				<div class="center py2 login-actions">
+					<a href="$!_authUrl" class="button button-fullwidth $!button_color mt2">#message("authenticator.totp.confirm.view.continue")</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="login-footer">
+			<span>&copy; Bankly</span>&nbsp;&nbsp;<span>Contato</span>&nbsp;&nbsp;<span>Privacidade e termos</span>&nbsp;&nbsp;<a href="https://portal.staging.bankly.com.br/faq" target="_blank" rel="noopener noreferrer">FAQ</a>
+		</div>
+	</div>
+
+	<div class="login-right">
+		<h2>Dispositivo validado<br>com sucesso para<br>seu acesso.</h2>
+	</div>
+</div>
+#end
+
+#parse("layouts/default")

@@ -1,0 +1,24 @@
+#*
+ * Global email logo override with per-brand fallback.
+ * If logo_email_path is already set by settings.vm, that value is used.
+ *#
+
+#set($resolvedLogoEmailPath = $!logo_email_path)
+
+#if(!$resolvedLogoEmailPath || $resolvedLogoEmailPath == "")
+    #if($current_area == "partner-portal")
+        #if($_baseUrl)
+            #set($resolvedLogoEmailPath = $_baseUrl + $!_staticResourceRootPath + '/assets/images/logo_bankly_preto.svg')
+        #else
+            #set($resolvedLogoEmailPath = $!_staticResourceRootPath + '/assets/images/logo_bankly_preto.svg')
+        #end
+    #else
+        #if($_baseUrl)
+            #set($resolvedLogoEmailPath = $_baseUrl + $!_staticResourceRootPath + '/assets/images/curity-logo.png')
+        #else
+            #set($resolvedLogoEmailPath = $!_staticResourceRootPath + '/assets/images/curity-logo.png')
+        #end
+    #end
+#end
+
+<img style="width: 136px; height: auto;" src="$!resolvedLogoEmailPath" alt="Logo" title="Logo" role="presentation">

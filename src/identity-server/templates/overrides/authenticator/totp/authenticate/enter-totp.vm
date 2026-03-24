@@ -1,0 +1,52 @@
+#set($_errorClassUsername = "")
+#set($_errorClassPassword = "")
+#if($logo_white_path && !$logo_path)
+	#set($logo_path = $logo_white_path)
+#end
+
+#set ($page_symbol = $page_symbol_authenticate_totp)
+
+#define($_body)
+#parse("fragments/credential-operation-details")
+
+<div class="login-container">
+	<div class="login-left">
+		<div class="login-logo-custom">
+			#if($logo_path)
+				<img src="$logo_path" alt="Logo" style="max-width: 200px; max-height: 100px;" />
+			#end
+		</div>
+
+		<form action="$_action" method="post" autocomplete="off" class="login-form">
+			<!--<h1 class="center">#message("authenticator.totp.authenticate.view.enter-totp.title1")</h1>-->
+
+			#set($otpFieldName = "otp")
+			#set($otpInputLength = $_totpLength)
+			#parse("fragments/otp-input")
+
+			<button type="submit" disabled class="button button-fullwidth $!button_color mt2">
+				#message("authenticator.totp.authenticate.view.verify")
+			</button>
+
+			#if ($_allowRegistrationDuringLogin && $_registrationEndpoint)
+				<div class="mt3 clearfix">
+					<div class="center py2 login-actions">
+					<a href="$_registrationEndpoint">#message("authenticator.totp.authenticate.view.register")</a>
+					</div>
+				</div>
+			#end
+		</form>
+
+		<div class="login-footer">
+			<span>&copy; Bankly</span>&nbsp;&nbsp;<span>Contato</span>&nbsp;&nbsp;<span>Privacidade e termos</span>&nbsp;&nbsp;<a href="https://portal.staging.bankly.com.br/faq" target="_blank" rel="noopener noreferrer">FAQ</a>
+		</div>
+	</div>
+
+	<div class="login-right">
+		<h2>Confirme seu código<br>de autenticação<br>para continuar.</h2>
+	</div>
+</div>
+
+#end
+
+#parse("layouts/default")

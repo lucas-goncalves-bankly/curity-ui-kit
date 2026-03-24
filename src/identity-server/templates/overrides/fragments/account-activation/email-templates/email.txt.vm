@@ -1,0 +1,13 @@
+#*
+ * Partner Portal account activation email fragment (text)
+ *#
+
+##set($title = "")
+#set($title = "#message('views.email.title')")
+
+#define($_body)
+    #message("views.email.verify")
+    $_activationUrl?token=${token}$!{oq}
+#end
+
+#parse("layouts/text-email")

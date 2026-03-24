@@ -1,0 +1,119 @@
+#set($_errorClassUsername = "")
+#set($_errorClassPassword = "")
+#if($logo_white_path && !$logo_path)
+	#set($logo_path = $logo_white_path)
+#end
+
+#if($_postBack && $_postBack["deviceId"])
+	#set($deviceId = $_postBack["deviceId"])
+#elseif($_deviceId)
+	#set($deviceId = $_deviceId)
+#end
+
+#if($_postBack && $_postBack["key"])
+	#set($key = $_postBack["key"])
+#elseif($_key)
+	#set($key = $_key)
+#end
+
+#if($_postBack && $_postBack["QR"])
+	#set($QR = $_postBack["QR"])
+#elseif($_QR)
+	#set($QR = $_QR)
+#end
+
+#if($_postBack && $_postBack["QRLink"])
+	#set($QRLink = $_postBack["QRLink"])
+#elseif($_QRLink)
+	#set($QRLink = $_QRLink)
+#end
+
+#set($step1Class = "")
+#set($step2Class = "hidden")
+
+#set ($page_symbol = $page_symbol_authenticate_totp)
+
+#define($_body)
+#parse("fragments/credential-operation-details")
+
+<div class="login-container">
+	<div class="login-left">
+		<div class="login-logo-custom">
+			#if($logo_path)
+				<img src="$logo_path" alt="Logo" style="max-width: 200px; max-height: 100px;" />
+			#end
+		</div>
+
+		<form method="post" class="login-form">
+			#if ($_errors)
+				#set($_errorClass = "is-error is-error-danger")
+				#if ($key)
+					#set($step1Class = "hidden")
+					#set($step2Class = "")
+				#else
+					#set($step1Class = "")
+					#set($step2Class = "hidden")
+				#end
+			#end
+
+			<!--<h1 class="center">#message("authenticator.totp.register.view.title1")</h1>-->
+
+			<div id="enter-device-id" class="$step1Class">
+				#if($key)
+					<div class="center">
+						<a href="$!QRLink" target="_blank">
+							<img src="$!QR" class="mx-auto block"/>
+						</a>
+					</div>
+					<p>#message("authenticator.totp.register.view.p1")</p>
+					<input type="text" name="key" id="key" class="block full-width mb1 field-light hidden $!_errorClass"
+						autofocus required value="$!key" autocapitalize="none">
+				#else
+					<div class="form-field">
+						<label class="$!_errorClass">#message("authenticator.totp.register.view.deviceId")</label>
+						<input type="text" name="deviceId" id="deviceId" class="block full-width mb1 field-light $!_errorClass"
+							autofocus required value="$!deviceId" autocapitalize="none">
+						<i class="form-field-icon icon ion-iphone"></i>
+					</div>
+				#end
+
+				<button type="button" id="button-next" class="button button-fullwidth $!button_color mt2">#message(
+					"authenticator.totp.register.view.next")</button>
+			</div>
+
+			<div id="enter-totp" class="$step2Class">
+				#set($otpFieldName = "totp")
+				#set($otpInputLength = $_totpLength)
+				#parse("fragments/otp-input")
+
+				<button type="submit" disabled class="button button-fullwidth $!button_color mt2">#message(
+					"authenticator.totp.register.view.register")</button>
+			</div>
+		</form>
+
+		#parse("fragments/jquery")
+
+		<script type="text/javascript" $!nonceAttr>
+			jQuery(document).ready(function ($) {
+				$("#button-next").on("click", function () {
+					$("#enter-device-id").fadeOut(function () {
+						$("#enter-totp").fadeIn();
+						$("#totp").focus();
+					});
+				});
+			});
+		</script>
+
+		<div class="login-footer">
+			<span>&copy; Bankly</span>&nbsp;&nbsp;<span>Contato</span>&nbsp;&nbsp;<span>Privacidade e termos</span>&nbsp;&nbsp;<a href="https://portal.staging.bankly.com.br/faq" target="_blank" rel="noopener noreferrer">FAQ</a>
+		</div>
+	</div>
+
+	<div class="login-right">
+		<h2>Registre seu app<br>TOTP para reforçar<br>a segurança.</h2>
+	</div>
+</div>
+
+#end
+
+#parse("layouts/default")

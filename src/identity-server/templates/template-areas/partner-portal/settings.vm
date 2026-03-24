@@ -1,0 +1,14 @@
+#parse("settings-defaults")
+#set ($current_area = "partner-portal")
+#set ($logo_path = $!_staticResourceRootPath + '/assets/images/logo_bankly_preto.svg')
+#set ($logo_white_path = $!_staticResourceRootPath + '/assets/images/logo_bankly_branco.png')
+#if ($_baseUrl)
+#set ($logo_email_path = $_baseUrl + $!_staticResourceRootPath + '/assets/images/logo_bankly_preto.svg')
+#else
+#set ($logo_email_path = $!_staticResourceRootPath + '/assets/images/logo_bankly_preto.svg')
+#end
+#set ($main_css_path = $!_staticResourceRootPath + '/assets/css/main.css')
+#set ($theme_css_path = $!_staticResourceRootPath + '/assets/css/partner-portal-theme.css')
+#set ($body_background = 'body-light')
+#set ($login_form_background = 'form-default')
+#set ($powered_by = false)

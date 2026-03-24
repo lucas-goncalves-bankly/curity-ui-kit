@@ -1,0 +1,13 @@
+#*
+ * Partner Portal custom verification email (HTML)
+ * Keeps core message keys and logic while applying custom button styling.
+ *#
+
+##set($title = "")
+
+#define($_body)
+    <p>#message("authenticator.html-form.email.verify-account.email.head1")</p>
+    <a style="-webkit-font-smoothing: antialiased; transition: all .3s ease; border-radius: 8px; background: #007aff; font-weight: 700; color: #fff; border: none; cursor: pointer; display: block; font-size: 1em; line-height: 1.86875rem; padding: .575rem 1.15rem; font-family: Roboto-Medium, sans-serif; text-align: center; -moz-osx-font-smoothing: grayscale; text-decoration: none;" href="$_activationUrl?token=${token}$!{oq}">#message("authenticator.html-form.email.verify-account.email.button")</a>
+#end
+
+#parse("layouts/html-email")

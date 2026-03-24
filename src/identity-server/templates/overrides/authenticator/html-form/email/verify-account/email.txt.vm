@@ -1,0 +1,13 @@
+#*
+ * Partner Portal custom verification email (text)
+ *#
+
+##set($title = "")
+
+#define($_body)
+    #message("authenticator.html-form.email.verify-account.email.head1")
+
+$_activationUrl?token=${token}$!{oq}
+#end
+
+#parse("layouts/text-email")

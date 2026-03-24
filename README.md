@@ -59,7 +59,7 @@ npm install
 To start preview servers concurrently for all projects, run:
 
 ```shell
-npm start
+npm run start
 ```
 
 Then you can access the projects at:
@@ -69,8 +69,8 @@ Then you can access the projects at:
 
 To start projects individually, run:
 
-- `npm start:identity-server` - to start the Curity Identity Server Templates
-- `npm start:ssp` to start the Self Service Portal
+- `npm run start:identity-server` - to start the Curity Identity Server Templates
+- `npm run start:ssp` to start the Self Service Portal
 
 ## Build
 

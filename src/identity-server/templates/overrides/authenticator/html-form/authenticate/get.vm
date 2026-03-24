@@ -1,0 +1,96 @@
+#set($_errorClassUsername = "")
+#set($_errorClassPassword = "")
+#if($logo_white_path && !$logo_path)
+  #set($logo_path = $logo_white_path)
+#end
+
+
+#if($_postBack && $_postBack.userName)
+  #set($userNameValue = $_postBack.userName)
+#elseif($_username)
+  #set($userNameValue = $_username)
+#end
+
+## Template customizado para tela de login do fluxo bankly_sso
+
+#define ($_body)
+#parse("fragments/credential-operation-details")
+
+<div class="login-container">
+  <div class="login-left">
+    <div class="login-logo-custom">
+      #if($logo_path)
+        <img src="$logo_path" alt="Logo" style="max-width: 200px; max-height: 100px;" />
+      #end
+    </div>
+
+    #if ($_binding_message)
+      <div id="context-info">
+        <div class="alert alert-info px4">
+          $_tr.encodeHtml($!_binding_message)
+        </div>
+      </div>
+    #end
+
+    <form method="post" action="$_authUrl" class="login-form">
+      #if ($_errors)
+        #set($_errorClassPassword = "is-error is-error-danger")
+        #if($_passwordOnly)
+          #set($_errorClassUsername = "")
+        #else
+          #set($_errorClassUsername = "is-error is-error-danger")
+        #end
+      #end
+
+      #if($_usernameIsEmail)
+        #set($userNameInputType = "email")
+        #set($userNameInputLabel= "authenticator.html-form.authenticate.view.email")
+      #else
+        #set($userNameInputType = "text")
+        #set($userNameInputLabel= "authenticator.html-form.authenticate.view.username")
+      #end
+
+      <!--<h1 class="login-title">#message("authenticator.html-form.authenticate.view.authenticate")</h1>-->
+
+      <div class="form-field">
+        <label for="userName" class="$!_errorClassUsername">#message($userNameInputLabel)</label>
+        <input type="$userNameInputType" name="userName" id="userName" autocorrect="off" spellcheck="false" class="block full-width mb1 field-light $!_errorClassUsername" autocapitalize="none"
+          value="$!userNameValue" #if ($_passwordOnly)disabled="disabled" #else autofocus #end>
+        <i class="form-field-icon icon ion-ios-person"></i>
+      </div>
+
+      <div class="form-field">
+        <label for="password" class="$!_errorClassPassword">#message("authenticator.html-form.authenticate.view.password")</label>
+        <input type="password" name="password" id="password" autocomplete="current-password" class="block full-width mb1 field-light $!_errorClassPassword" #if ($_passwordOnly)autofocus#end>
+        <i class="form-field-icon icon ion-ios-locked"></i>
+      </div>
+
+      <button type="submit" class="button button-fullwidth $!button_color mt2">#message(
+        "authenticator.html-form.authenticate.view.authenticate")</button>
+
+      #parse("fragments/remember-me")
+
+      <div class="mt3 clearfix">
+        <div class="center py2 login-actions">
+          #if ($_registerUrl)
+            <a href="$_registerUrl" class="mt2">
+              <i class="icon ion-android-person-add"></i>
+              #message("${_templatePrefix}.view.no-account")
+            </a>
+          #end
+        </div>
+      </div>
+    </form>
+
+    <div class="login-footer">
+      <span>&copy; Bankly</span>&nbsp;&nbsp;<span>Contato</span>&nbsp;&nbsp;<span>Privacidade e termos</span>&nbsp;&nbsp;<a href="https://portal.staging.bankly.com.br/faq" target="_blank" rel="noopener noreferrer">FAQ</a>
+    </div>
+  </div>
+
+  <div class="login-right">
+    <h2>Faça login<br>para acessar a<br>plataforma.</h2>
+  </div>
+</div>
+#end
+
+#parse("layouts/default")

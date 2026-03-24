@@ -1,0 +1,110 @@
+#set($_errorClassUsername = "")
+#set($_errorClassPassword = "")
+#if($logo_white_path && !$logo_path)
+	#set($logo_path = $logo_white_path)
+#end
+
+#define($_body)
+
+#parse("fragments/credential-operation-details")
+
+<div class="login-container">
+	<div class="login-left">
+		<div class="login-logo-custom">
+			#if($logo_path)
+				<img src="$logo_path" alt="Logo" style="max-width: 200px; max-height: 100px;" />
+			#end
+		</div>
+
+		<form method="post" class="login-form">
+			<!--<div class="center">
+				<h1 class="mt1">#message("${_templatePrefix}.view.create-account")</h1>
+				<p>#message("authenticator.html-form.create-account.view.description")</p>
+			</div>-->
+
+			<div class="form-field">
+				<label for="name.givenName">#message("authenticator.html-form.create-account.view.firstName")</label>
+				<input type="text" name="name.givenName" id="name.givenName" autocorrect="off" spellcheck="false" value="$!{_postBack["name.givenName"]}"
+					class="block full-width mb1 field-light" autofocus>
+				<i class="form-field-icon icon ion-ios-person"></i>
+			</div>
+
+			<div class="form-field">
+				<label for="name.familyName">#message("authenticator.html-form.create-account.view.lastName")</label>
+				<input type="text" name="name.familyName" id="name.familyName" autocorrect="off" spellcheck="false" value="$!{_postBack["name.familyName"]}"
+					class="block full-width mb1 field-light">
+				<i class="form-field-icon icon ion-ios-person"></i>
+			</div>
+
+			#if ($_showEmailField)
+				<div class="form-field">
+					<label for="primaryEmail">#message("authenticator.html-form.create-account.view.email")</label>
+					<input type="email" name="primaryEmail" id="primaryEmail" value="$!{_postBack["primaryEmail"]}"
+						class="block full-width mb1 field-light">
+					<i class="form-field-icon icon ion-email"></i>
+				</div>
+			#end
+
+			<!--<div class="form-field">
+				<label for="primaryPhoneNumber">#message("authenticator.html-form.create-account.view.phone")</label>
+				<input type="text" name="primaryPhoneNumber" id="primaryPhoneNumber"
+					value="$!{_postBack["primaryPhoneNumber"]}" class="block full-width mb1 field-light">
+				<i class="form-field-icon icon ion-iphone"></i>
+			</div>-->
+
+			<div class="form-field">
+				#if($_showEmailField)
+					<label for="userName">#message("authenticator.html-form.create-account.view.username")</label>
+					<input type="text" name="userName" id="userName" value="$!{_postBack["userName"]}"
+						class="block full-width mb1 field-light" autocapitalize="none">
+					<i class="form-field-icon icon ion-ios-person"></i>
+				#else
+					<label for="userName">#message("authenticator.html-form.create-account.view.email")</label>
+					<input type="email" name="userName" id="userName" value="$!{_postBack["userName"]}"
+						class="block full-width mb1 field-light" autocapitalize="none">
+					<i class="form-field-icon icon ion-email"></i>
+				#end
+			</div>
+
+			#if ($_showPasswordFields == true)
+				<div class="form-password-reveal-form password-group">
+					<label for="password">#message("authenticator.html-form.create-account.view.password")</label>
+					<input class="block full-width mb1 field-light" type="password" name="password" id="password">
+					<i class="form-password-reveal-form-icon"></i>
+					#if ($_hasCredentialPolicy == true)
+						#parse("fragments/credential-validation")
+					#else
+						<div class="progress progress-thin">
+							<div class="progress-warning" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+						</div>
+					#end
+				</div>
+			#end
+
+			<div class="login-links mt3 clearfix">
+				<div class="login-links-forgot sm-col md-col-12">
+					<label class="block full-width mb2">
+						<input type="checkbox" name="agreeToTerms" id="agreeToTerms">
+						#message("authenticator.html-form.create-account.view.terms")
+					</label>
+				</div>
+			</div>
+
+			<button type="submit" class="button button-fullwidth button-primary">
+				#message("authenticator.html-form.create-account.view.button")
+			</button>
+		</form>
+
+		<div class="login-footer">
+			<span>&copy; Bankly</span>&nbsp;&nbsp;<span>Contato</span>&nbsp;&nbsp;<span>Privacidade e termos</span>&nbsp;&nbsp;<a href="https://portal.staging.bankly.com.br/faq" target="_blank" rel="noopener noreferrer">FAQ</a>
+		</div>
+	</div>
+
+	<div class="login-right">
+		<h2>Crie sua conta<br>para continuar<br>na plataforma.</h2>
+	</div>
+</div>
+
+#end
+
+#parse("layouts/default")

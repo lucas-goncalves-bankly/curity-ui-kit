@@ -1,0 +1,58 @@
+#set($_errorClassUsername = "")
+#set($_errorClassPassword = "")
+#if($logo_white_path && !$logo_path)
+	#set($logo_path = $logo_white_path)
+#end
+
+#if($_postBack && $_postBack["alias"])
+	#set($alias = $_postBack["alias"])
+#elseif($_alias)
+	#set($alias = $_alias)
+#end
+
+#set ($page_symbol = $page_symbol_authenticate_totp)
+
+#define($_body)
+#parse("fragments/credential-operation-details")
+
+<div class="login-container">
+	<div class="login-left">
+		<div class="login-logo-custom">
+			#if($logo_path)
+				<img src="$logo_path" alt="Logo" style="max-width: 200px; max-height: 100px;" />
+			#end
+		</div>
+
+		<form method="post" class="login-form">
+			#if ($_errors)
+				#set($_errorClass = "is-error is-error-danger")
+			#end
+			<div id="enter-device-id">
+				<!--<h1 class="center">#message("authenticator.totp.set-alias.view.title1")</h1>-->
+				<div class="center">
+					<p>#message("authenticator.totp.set-alias.view.p1")</p>
+				</div>
+				<div class="form-field">
+					<label class="$!_errorClass">#message("authenticator.totp.set-alias.view.alias")</label>
+					<input type="text" name="alias" id="alias" class="block full-width mb1 field-light $!_errorClass"
+						autofocus required value="$!alias" autocapitalize="none" maxlength="30">
+					<i class="form-field-icon icon ion-iphone"></i>
+				</div>
+				<button type="submit" class="button button-fullwidth $!button_color mt2">#message(
+					"authenticator.totp.set-alias.view.generate-code")</button>
+			</div>
+		</form>
+
+		<div class="login-footer">
+			<span>&copy; Bankly</span>&nbsp;&nbsp;<span>Contato</span>&nbsp;&nbsp;<span>Privacidade e termos</span>&nbsp;&nbsp;<a href="https://portal.staging.bankly.com.br/faq" target="_blank" rel="noopener noreferrer">FAQ</a>
+		</div>
+	</div>
+
+	<div class="login-right">
+		<h2>Nomeie seu dispositivo<br>para facilitar o uso<br>do TOTP.</h2>
+	</div>
+</div>
+
+#end
+
+#parse("layouts/default")
